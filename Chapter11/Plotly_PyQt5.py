@@ -21,16 +21,16 @@ class Plotly_PyQt5():
         plotly_dir = 'plotly_html'
         if not os.path.isdir(plotly_dir):
             os.mkdir(plotly_dir)
-            
+
         self.path_dir_plotly_html = os.getcwd() + os.sep + plotly_dir
-    
+
     #path_plotly_four_line = os.getcwd() + os.sep + plotly_dir + os.sep + 'mpl_two_line.html'
     #pyof.plot_mpl(a, resize=True, auto_open=False, filename=path_plotly_four_line)
 
     def get_test_plot_path(self, file_name = 'test_plot.html'):
         path_plotly = self.path_dir_plotly_html + os.sep + file_name
         # Add data
-        
+
         month = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
                  'August', 'September', 'October', 'November', 'December']
         high_2000 = [32.5, 37.6, 49.9, 53.0, 69.1, 75.4, 76.5, 76.6, 70.7, 60.6, 45.1, 29.3]
@@ -39,7 +39,7 @@ class Plotly_PyQt5():
         low_2007 = [23.6, 14.0, 27.0, 36.8, 47.6, 57.7, 58.9, 61.2, 53.3, 48.5, 31.0, 23.6]
         high_2014 = [28.8, 28.5, 37.0, 56.8, 69.7, 79.7, 78.5, 77.8, 74.1, 62.6, 45.3, 39.9]
         low_2014 = [12.7, 14.3, 18.6, 35.5, 49.9, 58.0, 60.0, 58.6, 51.7, 45.2, 32.2, 29.1]
-        
+
         # Create and style traces
         trace0 = go.Scatter(
             x = month,
@@ -94,22 +94,22 @@ class Plotly_PyQt5():
                 dash = 'dot')
         )
         data = [trace0, trace1, trace2, trace3, trace4, trace5]
-        
+
         # Edit the layout
         layout = dict(title = 'Average High and Low Temperatures in New York',
                       xaxis = dict(title = 'Temperature (degrees F)'),
                       yaxis = dict(title = 'Month'),
                       )
-        
+
         # Plot and embed in ipython notebook!
         fig = dict(data=data, layout=layout)
         pyof.plot(fig,  filename=path_plotly, auto_open=False)
-        
+
         return path_plotly
-    
+
     def get_plotly_path_period_return(self, file_name='period_return.html'):
         path_plotly = self.path_dir_plotly_html + os.sep + file_name
-        
+
         本基金 = [-2.59,-2.59,-11.07,8.66,-5.84]
         沪深300 = [1.64,1.64,0.73,5.01,14.20]
         同类平均 = [-0.79,-0.79,-2.08,0.76,7.03]
@@ -123,32 +123,32 @@ class Plotly_PyQt5():
             y=沪深300,
             name='沪深300'
         )
-        
+
         trace3 = go.Bar(
             x=['今年以来', '最近一个月', '最近三个月', '最近半年', '最近一年'],
             y=同类平均,
             name='同类平均'
         )
-        
+
         data = [trace1, trace2, trace3]
         layout = go.Layout(
             barmode='group'
         )
-        
+
         fig = go.Figure(data=data, layout=layout)
         pyof.plot(fig,  filename=path_plotly, auto_open=False)
         return path_plotly
 
     def get_plotly_path_lagest_back(self, file_name='lagest_back.html'):
         path_plotly = self.path_dir_plotly_html + os.sep + file_name
-        
+
         lagest_down = [-3.74, -3.736, -3.736, -5.969, -5.969]
         lagest_back = [-6.29, -6.285, -6.042, -11.651, -13.942]
-        
+
         std = [10.271, 8.552, 9.123, 10.839, 10.529]
-        
+
         xticks = ['2016/9', '2016/10','2016/11','2016/12','2017/1',]
-        
+
         trace1 = go.Bar(
             x=xticks,
             y=lagest_down,
@@ -159,38 +159,39 @@ class Plotly_PyQt5():
             y=lagest_back,
             name='最大回撤'
         )
-        
+
         data = [trace1, trace2]
         layout = go.Layout(barmode='group')
-        
+
         fig = go.Figure(data=data,layout=layout)
         pyof.plot(fig,  filename=path_plotly, auto_open=False)
         return path_plotly
 
     def get_plotly_path_month_return(self, file_name='month_return.html'):
-        path_plotly = self.path_dir_plotly_html + os.sep + file_name        
-                
+        path_plotly = self.path_dir_plotly_html + os.sep + file_name
+
         date = ['2017-01', '2016-12', '2016-11', '2016-10', '2016-09', '2016-08', '2016-07', '2016-06',
                 '2016-05', '2016-04', '2016-03', '2016-02', '2016-01', '2015-12', '2015-11', '2015-10' ]
-        
+
         ret = [-2.59, -5.97, -2.91, -0.39, -2.78, 6.07, 0.49, -0.32, 2.78, 0.01, 0.58, -0.46, -3.74, 0.75, 0.37, 6.08]
         data = [go.Bar(
                     x=date,
                     y=ret,
                 name = '月度收益'
             )]
-        
+
         pyof.plot(data,  filename=path_plotly, auto_open=False)
         return path_plotly
-    
+
     def get_plotly_path_product_vs_hs300(self, file_name='product_vs_hs300.html'):
-        path_plotly = self.path_dir_plotly_html + os.sep + file_name        
-                
+        path_plotly = self.path_dir_plotly_html + os.sep + file_name
+
         data = pd.read_excel(r'data\和聚光明1号_hs300_merge.xlsx', index_col=[0]
                              )
-        data.rename_axis(lambda x: pd.to_datetime(x), inplace=True)
+        data.index = pd.to_datetime(data.index)
+        # data.rename_axis(lambda x: pd.to_datetime(x), inplace=True)
         data.dropna(inplace=True)
-        
+
         data = [
             go.Scatter(
                 x=data.index, # assign x as the dataframe column 'x'

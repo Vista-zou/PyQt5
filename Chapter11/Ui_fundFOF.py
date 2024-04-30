@@ -108,3 +108,4 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "回撤情况"))
 
 from PyQt5.QtWebEngineWidgets import QWebEngineView
+

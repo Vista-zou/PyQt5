@@ -1,14 +1,14 @@
-# -*- coding: utf-8 -*- 
-#  
+# -*- coding: utf-8 -*-
+#
 #  zwQuantToolBox 2016
-#  zw量化开源工具箱系列软件 
-#  http://www.ziwang.com,Python量化第一品牌 
-#  
+#  zw量化开源工具箱系列软件
+#  http://www.ziwang.com,Python量化第一品牌
+#
 #  文件名:zwSys.py
 #  说明：import zwSys as zw
 #       设置常用变量,类定义、初始化函数
-#  
-# =====================================  
+#
+# =====================================
 
 import sys, os
 import numpy as np
@@ -84,11 +84,11 @@ stkCodeTbl = None  # 全局变量，相关股票的交易代码，名称对照�
 
 class zwXBar(object):
     ''' 记录每笔交易Bar数据包
-    
+
     Args:
         Csv数据源。
         (datetime, open, close, high, low, volume)
-        
+
     :ivar xtim: 交易时间
     :ivar mode: 买or卖
     :ivar code: 股票代码
@@ -117,7 +117,7 @@ class zwXBar(object):
 
 class zwQuantX(object):
     ''' 定义了zwQuant量化交易所需的各种变量参数、相关的类函数
-    
+
     Args:
         csv数据源。
         (datetime, open, close, high, low, volume)
@@ -247,7 +247,7 @@ class zwQuantX(object):
 
     def qxTimSet(self, xtim0, xtim9):
         ''' 设置时间参数
-           
+
         Args:
             xtim0 (str): 起始时间
             xtim9 (str): 截止时间
@@ -264,7 +264,7 @@ class zwQuantX(object):
 
     def qxTim0SetVar(self, xtim):
         ''' 回溯测试时间点开始，初始化相关参数
-            
+
         '''
 
         self.xtim = xtim
@@ -274,14 +274,14 @@ class zwQuantX(object):
 
     def qxTim9SetVar(self, xtim):
         ''' 回溯测试时间点结束，整理相关数据
-          
+
         '''
 
         self.xtim = xtim
         # self.qxUsr['date'] = xtim
         zwx.xusrUpdate(self)
         # self.qxLib.append(self.qxUsr.T,ignore_index=True)
-        self.qxLib = self.qxLib.append(self.qxUsr, ignore_index=True)
+        self.qxLib = pd.concat([self.qxLib, self.qxUsr], ignore_index=True)
         # self.qxLib.dropna(inplace=True)
 
     def update_usr_qxLib(self,qx,qxLib):
@@ -303,11 +303,17 @@ class zwQuantX(object):
         qx.downMaxDay = group['downDay'].count().max()
 
         '''计算回撤的最高点位'''
-        idxmax = df.val.idxmax()
-        qx.downHigh = df.iloc[idxmax, :]['val']
+        df['val'] = pd.to_numeric(df['val'], errors='coerce')  # 确保转换为数值类型，非数值转为NaN
+        if not df['val'].isnull().all():  # 检查'val'列中是否有非NaN值
+            idxmax = df['val'].idxmax(skipna=True)  # 只有存在非NaN值时才寻找最大值索引
+            qx.downHigh = df.loc[idxmax, 'val']
+            qx.downHighTime = df.loc[idxmax, 'date']
+        else:
+            print("No valid numeric values found in 'val' column to determine 'downHigh'.")
+            qx.downHigh = None  # 或者根据你的需求赋予一个默认值
 
         '''计算回撤的最高点位时间'''
-        qx.downHighTime = df.iloc[idxmax,:]['date']
+        # qx.downHighTime = df.loc[idxmax,:]['date']
 
         '''计算回撤的最低点位'''
         qx.downLow = df.downLow.min()
@@ -367,7 +373,7 @@ class zwQuantX(object):
 
     def prTrdLib(self):
         ''' 输出xtrdLib、xtrdNilLib 各种实盘、空头交易数据，一般用于结束时
-            
+
         '''
         print('\n::xtrdNilLib 空头交易')
         print(self.xtrdNilLib)

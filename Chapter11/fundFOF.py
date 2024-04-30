@@ -27,7 +27,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         """
         Constructor
-        
+
         @param parent reference to the parent widget
         @type QWidget
         """
@@ -50,18 +50,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         t.setParameters(p, showTop=False)
         t.setHeaderLabels(["参数", "数值"])
         # t.setWindowTitle('pyqtgraph example: Parameter Tree')
-        layout = QtGui.QGridLayout()
+        layout = QGridLayout()
         self.widget_parameter_tree.setLayout(layout)
         layout.addWidget(
-            QtGui.QLabel("千石资本-和聚光明1号资产管理计划基本信息"), 0, 0, 1, 1)
+            QLabel("千石资本-和聚光明1号资产管理计划基本信息"), 0, 0, 1, 1)
         layout.addWidget(t)
 
         '''显示绘图函数'''
-        self.QWebEngineView_ProductVsHs300.load(
-            QUrl.fromLocalFile(self.plotly_pyqt5.get_plotly_path_product_vs_hs300()))
-        self.QWebEngineView_LagestBack.load(QUrl.fromLocalFile(self.plotly_pyqt5.get_plotly_path_lagest_back()))
-        self.QWebEngineView_PeriodReturn.load(QUrl.fromLocalFile(self.plotly_pyqt5.get_plotly_path_period_return()))
-        self.QWebEngineview_MonthReturn.load(QUrl.fromLocalFile(self.plotly_pyqt5.get_plotly_path_month_return()))
+        # self.QWebEngineView_ProductVsHs300.load(
+        #     QUrl.fromLocalFile(self.plotly_pyqt5.get_plotly_path_product_vs_hs300()))
+        # self.QWebEngineView_LagestBack.load(QUrl.fromLocalFile(self.plotly_pyqt5.get_plotly_path_lagest_back()))
+        # self.QWebEngineView_PeriodReturn.load(QUrl.fromLocalFile(self.plotly_pyqt5.get_plotly_path_period_return()))
+        # self.QWebEngineview_MonthReturn.load(QUrl.fromLocalFile(self.plotly_pyqt5.get_plotly_path_month_return()))
 
 
 if __name__ == "__main__":

@@ -1,14 +1,14 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 '''
-  
+
   zwQuantToolBox 2016
-  zw量化开源工具箱系列软件 
-  http://www.ziwang.com,Python量化第一品牌 
-  
+  zw量化开源工具箱系列软件
+  http://www.ziwang.com,Python量化第一品牌
+
   文件名:zwQTBox.py
   说明：import zwQTBox as zwx
   常用zwQuant量化工具函数集
-  
+
 
 '''
 
@@ -219,7 +219,7 @@ def xtick2minWr(qx, rsk):
     会自动去重
     对应的数据目录 \zwdat\min\
         输出数据在min目录对应的分时目录当中，已经自动转换为5,15,30,60分钟分时数据
-    
+
     '''
     print(qx.min_ksgns)
     for ksgn0 in qx.min_ksgns:
@@ -274,7 +274,7 @@ def xtick2min010(qx):
        输入
            qx.min_ksgnWrk
            qx.min_knum
-           
+
     '''
 
     wrkDTim0, dt9 = parse(qx.xtimTick0), parse(qx.xtimTick9)
@@ -302,7 +302,7 @@ def xtick2tim100(qx, fdat):
     根据输入的fdat文件名，读取tick分笔数据，并转换为对应的分时数据：5/15/30/60 分钟
     【输入】
     fdat，rick数据文件名
-    
+
     '''
     xfg = os.path.exists(fdat)  # print('x100',xfg,fdat)
     if xfg:
@@ -381,7 +381,7 @@ def xtick2tim_allcode(qx):
 def xtick_real_downsub(xcod):
     ''' 中国A股,tick 历史或real实时 tick 分笔数据下载子程序
         会自动将中文type，替换成 英文：中性盘：norm；买盘：buy 卖盘：sell
-        
+
     【输入】
         xcod,股票代码
         xtim，日期字符串，当xtim为空时，下载的是当天 实时 tick数据
@@ -414,11 +414,11 @@ def xtick_real_down_all(qx, finx):
         \zwdat\tickreal\ 输出目录
         \zwdat\tickreal\tick\ 分笔tick数据
         \zwdat\tickreal\Mxx\ 分笔tick数据，转换后的分时数据
-        
+
         输出数据在对应的tick目录当中，已经自动转换为分时数据
         当天最新实时tikc、分笔数据，会自动覆盖以前的旧数据
-        
-        
+
+
     '''
     # qx.min_ksgns=['05','15','30','60']
     rdat = zw._rdatTickReal
@@ -486,7 +486,7 @@ def down_stk_cn020inx(qx, xtim0):
         if xd is not None:
             if (len(xd0) > 0):
                 xd2 = xd0.append(xd)
-                #  flt.dup 
+                #  flt.dup
                 xd2["index"] = xd2.index
                 xd2.drop_duplicates(subset='index', keep='last', inplace=True)
                 del (xd2["index"])
@@ -505,7 +505,7 @@ def down_stk_cn020inx(qx, xtim0):
 def down_stk_cn010(qx):
     ''' 中国A股数据下载子程序
     【输入】
-        qx (zwDatX): 
+        qx (zwDatX):
         xtyp (str)：数据类型，9,Day9,简版股票数据，可下载到2001年，其他的全部是扩充版数据，只可下载近3年数据
             D=日k线 W=周 M=月 默认为D
     :ivar xcod (int): 股票代码
@@ -538,7 +538,7 @@ def down_stk_cn010(qx):
         if xd is not None:
             if (len(xd0) > 0):
                 xd2 = xd0.append(xd)
-                #  flt.dup 
+                #  flt.dup
                 xd2["index"] = xd2.index
                 xd2.drop_duplicates(subset='index', keep='last', inplace=True)
                 del (xd2["index"])
@@ -558,7 +558,7 @@ def down_stk_all(qx, finx):
     '''
     根据finx股票列表文件，下载所有，或追加日线数据
     自动去重，排序
-    
+
     '''
     dinx = pd.read_csv(finx, encoding='gbk')
     print(finx)
@@ -615,9 +615,9 @@ def down_stk_yahoo010(qx, ftg):
 def stkInxLibRd(qx):
     '''
 		读取指定的大盘数据到zw.stkInxLib
-		
+
 		Args:
-            
+
     :
     qx.stkInxRDat='\\zwdat\\cn\\xday\\''    #大盘指数数据源路径
     qx.stkInxCode='000001'    #大盘指数代码
@@ -625,7 +625,7 @@ def stkInxLibRd(qx):
     qx.stkInxCName='上证指数'    #大盘指数中文名称，拼音
     #
     zw.stkInxLib=None  #全局变量，大盘指数，内存股票数据库
-    
+
     '''
     if qx.stkInxCode != '':
         fss = qx.stkInxRDat + qx.stkInxCode + ".csv"
@@ -638,11 +638,11 @@ def stkInxLibRd(qx):
 
 def stkInxLibSet8XTim(qx, dtim0, dtim9):
     ''' 根据时间段，切割大盘指数数据 zw.stkInxLib
-    
+
     Args:
         dtim0（str）：起始时间
         dtim9（str）:结束时间
-            
+
     :ivar
     zw.stkInxLib，大盘指数数据
     '''
@@ -664,15 +664,15 @@ def stkInxLibSet8XTim(qx, dtim0, dtim9):
 def stkLibRd(xlst, rdir):
     '''
 		读取指定的股票数据到stkLib，可多只股票，以及股票代码文件名
-		
+
 		Args:
         xlst (list): 指定股票代码列表,
           如果xlst参数首字母是'@'，表示是股票代码文件名，而不是代码本身
-          用于批量导入股票代码 
-        rdir (str)：数据类存放目录 
-            
+          用于批量导入股票代码
+        rdir (str)：数据类存放目录
+
     :ivar xcod (int): 股票代码
-    
+
     '''
     zw.stkLib = {}  # 全局变量，相关股票的交易数据
     zw.stkLibCode = []  # 全局变量，相关股票的交易代码
@@ -698,8 +698,8 @@ def stkLibRd(xlst, rdir):
 
 
 def stkLibPr():
-    ''' 输出股票数据 
-            
+    ''' 输出股票数据
+
     :ivar xcod (int): 股票代码
     '''
 
@@ -712,11 +712,11 @@ def stkLibPr():
 
 def stkLibSet8XTim(dtim0, dtim9):
     ''' 根据时间段，切割股票数据
-    
+
     Args:
         dtim0（str）：起始时间
         dtim9（str）:结束时间
-            
+
     :ivar xcod (int): 股票代码
     '''
     for xcod in zw.stkLibCode:
@@ -734,11 +734,11 @@ def stkLibSet8XTim(dtim0, dtim9):
 
 def stkLibSetDVix():
     ''' 根据时间段，切割股票数据
-    
+
     Args:
         dtim0（str）：起始时间
         dtim9（str）:结束时间
-            
+
     :ivar xcod (int): 股票代码
     '''
     for xcod in zw.stkLibCode:
@@ -752,10 +752,10 @@ def stkLibSetDVix():
 def stkGetVars(qx, ksgn):
     '''
       获取股票代码，指定字段的数据
-    
+
     Args:
         qx (zwQuantX): zwQuantX交易数据包
-        ksgn (str): qx.stkCode,qx.xtim,qx.stkSgnPrice 
+        ksgn (str): qx.stkCode,qx.xtim,qx.stkSgnPrice
         '''
     d10 = zw.stkLib[qx.stkCode]
     d01 = d10[qx.xtim:qx.xtim]
@@ -771,7 +771,7 @@ def stkGetVars(qx, ksgn):
 def stkGetPrice(qx, ksgn):
     '''
       获取当前价格
-    
+
     Args:
         qx (zwQuantX): zwQuantX交易数据包
         ksgn (str): 价格模式代码
@@ -793,7 +793,7 @@ def stkGetPrice(qx, ksgn):
 def stkGetPrice9x(qx, ksgn):
     '''
       获取首个、末个交易日数据
-    
+
     Args:
         qx (zwQuantX): zwQuantX交易数据包
         ksgn (str): 价格模式代码
@@ -810,7 +810,7 @@ def stkGetPrice9x(qx, ksgn):
 def stkLibGetTimX(xcod):
     '''
     返回指定股票代码首个、末个交易日时间数据
-    
+
     Args:
         xcod (int): 股票代码
         '''
@@ -825,7 +825,7 @@ def stkLibGetTimX(xcod):
 
 def stkLibName8Code(xcod):
     ''' 根据股票代码，返回股票中文、英文/拼音缩写名称
-    
+
     Args:
         xcod (int): 股票代码
         '''
@@ -845,11 +845,11 @@ def stkLibName8Code(xcod):
 # --------stk.xxx
 def stkValCalc(qx, xdicts):
     ''' 计算 xdicts 内所有的股票总价值
-    
+
     Args:
         qx (zwQuantX): zwQuantX数据包
-        xdicts (list)：所选股票代码列表 
-            
+        xdicts (list)：所选股票代码列表
+
     :ivar xcod (int): 股票代码
     '''
     dsum9 = 0
@@ -875,7 +875,7 @@ def xbarPr(bars):
 
 def xbarGet8Tim(xcod, xtim):
     ''' 根据指定股票代码。时间，获取数据包
-    
+
     Args:
         xcod (int): 股票代码
         xtim (str): 交易时间
@@ -889,7 +889,7 @@ def xbarGet8Tim(xcod, xtim):
 
 def xbarGet8TimExt(xcod, xtim):
     '''  根据指定股票代码。时间，获取数据包及股票数据
-    
+
     Args:
         xcod (int): 股票代码
         xtim (str): 交易时间
@@ -905,9 +905,9 @@ def xbarGet8TimExt(xcod, xtim):
 
 def xtrdObjSet(qx):
     ''' 设置交易节点数据
-    
+
     Args:
-        qx (zwDatX): zwQuant数据包   
+        qx (zwDatX): zwQuant数据包
     #xtrdName=['date','ID','mode','code','dprice','num','kprice','sum','cash']
         '''
     b2 = pd.Series(zw.xtrdNil, index=zw.xtrdName)
@@ -930,16 +930,16 @@ def xtrdObjSet(qx):
 
 def xtrdChkFlag(qx):
     ''' 检查是不是有效交易
-    
+
     Args:
         qx (zwQuantX): zwQuantX数据包
         #qx.stkNum，>0，买入股票；<0，卖出股票；-1；卖出全部股票
-        #预设参数：qx.qxUsr 
-    
+        #预设参数：qx.qxUsr
+
     Return：
         xfg,True,有效交易；False，无效交易
         b2：有效交易的数据包 Bar
-        
+
     :ivar xnum (int): 用户持有资产总数
     '''
 
@@ -987,16 +987,16 @@ def xtrdChkFlag(qx):
 
 def xtrdChkFlag00(qx):
     ''' 检查是不是有效交易
-    
+
     Args:
         qx (zwQuantX): zwQuantX数据包
         #qx.stkNum，>0，买入股票；<0，卖出股票；-1；卖出全部股票
-        #预设参数：qx.qxUsr 
-    
+        #预设参数：qx.qxUsr
+
     Return：
         xfg,True,有效交易；False，无效交易
         b2：有效交易的数据包 Bar
-        
+
     :ivar xnum (int): 用户持有资产总数
     '''
 
@@ -1031,7 +1031,7 @@ def xtrdChkFlag00(qx):
 
 def xusrStkNum(qx, xcod):
     ''' 返回用户持有的 xcod 股票数目
-    
+
     Args:
         qx (zwQuantX): zwQuantX数据包
         xcod (int): 股票代码
@@ -1045,10 +1045,10 @@ def xusrStkNum(qx, xcod):
 
 def xusrUpdate(qx):
     ''' 更新用户数据
-    
+
     Args:
-        qx (zwQuantX): zwQuantX数据包 
-        
+        qx (zwQuantX): zwQuantX数据包
+
         '''
 
     qx.qxUsr['date'] = qx.xtim
@@ -1088,11 +1088,11 @@ def xusrUpdate(qx):
 
 def xusr4xtrd(qx, b2):
     ''' 根据交易数据，更新用户数据 qxUsr
-    
+
     Args:
         qx (zwQuantX): zwQuantX数据包
         b2 (pd.Series): 有效交易的数据包 Bar
-            
+
     :ivar xcod (int): 股票代码
     '''
 
@@ -1114,7 +1114,7 @@ def xusr4xtrd(qx, b2):
 
 def xtrdLibAdd(qx):
     ''' 添加交易到 xtrdLib
-    
+
     Args:
         qx (zwQuantX): zwQuantX数据包
 
@@ -1125,12 +1125,12 @@ def xtrdLibAdd(qx):
     qx.xtrdChk['ID'] = qx.qxID
     # xbarUsrUpdate(qx,qx.xtrdChk)
     xusr4xtrd(qx, qx.xtrdChk)  # qx.qxUsr['cash']=qx.qxUsr['cash']-b2['sum']
-    qx.xtrdLib = qx.xtrdLib.append(qx.xtrdChk.T, ignore_index=True)
+    qx.xtrdLib = pd.concat([qx.xtrdLib, qx.xtrdChk.T], ignore_index=True)
 
 
 def xtrdLibNilAdd(qx):
     ''' 添加交易到空头记录 xtrdNilLib
-    
+
     Args:
         qx (zwQuantX): zwQuantX数据包
 
@@ -1143,10 +1143,10 @@ def xtrdLibNilAdd(qx):
 
 def zwRetTradeCalc(qx, pyqt_mode=False):
     ''' 输出、计算交易数据
-    
+
     Args:
         qx (zwQuantX): zwQuantX数据包
-        
+
         '''
 
     df = qx.xtrdLib
@@ -1174,7 +1174,7 @@ def zwRetTradeCalc(qx, pyqt_mode=False):
 
 def zwRetPr(qx):
     ''' 输出、计算回报率
-    
+
     Args:
         qx (zwQuantX): zwQuantX数据包
 
@@ -1249,7 +1249,7 @@ def zwRetPr(qx):
 # -------------qx.xxxx
 def qxObjSet(xtim, stkVal, dcash, dret):
     ''' 设置 xtrdLib 单次交易节点数据
-    
+
     Args:
         xtim (str): 交易时间
         stkVal (int): 股票总价值
@@ -1274,10 +1274,10 @@ def qxObjSet(xtim, stkVal, dcash, dret):
 
 def xedit_zwXDat(df):
     ''' 编辑用户数据格式
-    
+
     Args:
         df (pd.DataFrame): 股票数据
-            
+
             '''
     df = df.rename(columns={'Open': 'open', 'High': 'high', 'Low': 'low', 'Close': 'close', 'Volume': 'volume'})
     df.sort_index(ascending=True, inplace=True)
@@ -1321,11 +1321,11 @@ def xedit_zwXDat(df):
 # ------------
 def df2yhaoo(df0):
     ''' 股票数据格式转换，转换为 Yahoo 格式
-    
+
     Args:
         df0 (pd.DataFrame): 股票数据
-        
-    #Date,Open,High,Low,Close,Volume,Adj Close        
+
+    #Date,Open,High,Low,Close,Volume,Adj Close
         '''
 
     clst = ["Open", "High", "Low", "Close", "Volume", "Adj Close"]
@@ -1349,11 +1349,11 @@ def df2yhaoo(df0):
 
 def df2cnstk(df0):
     ''' 股票数据格式转换，转换为中国 A 股格式
-    
+
     Args:
         df0 (pd.DataFrame): 股票数据
-        
-    #date,open,high,close,low,volume,amount    
+
+    #date,open,high,close,low,volume,amount
         '''
 
     clst = ["open", "high", "low", "close", "volume", "amount"]
@@ -1376,7 +1376,7 @@ def df2cnstk(df0):
 
 def df2zw(df0):
     ''' 股票数据格式转换，转换为 zw 格式
-    
+
     Args:
         df0 (pd.DataFrame): 股票数据
 
@@ -1457,7 +1457,7 @@ def df2zwAdj(df0):
 # -----OHLC
 def stk_col_renLow(dat):
     ''' 股票数据格式转换，转换小写列名称
-    
+
     Args:
         dat (pd.DataFrame): 股票数据
         '''
@@ -1470,7 +1470,7 @@ def stk_col_renLow(dat):
 
 def stk_copy_OHLC(dat0):
     ''' 复制股票 OHLC 数据
-    
+
     Args:
         dat0 (pd.DataFrame): 股票数据
         '''
@@ -1546,9 +1546,9 @@ def sharpe_rate(ser_return, rfRate, ntim=252, log_flag=False):
 
 def sta_dataPre0xtim(qx, xnam0):
     ''' 策略参数设置子函数，根据预设时间，裁剪数据源stkLib
-    
+
     Args:
-        qx (zwQuantX): zwQuantX数据包 
+        qx (zwQuantX): zwQuantX数据包
         xnam0 (str)： 函数标签
 
     '''
@@ -1588,7 +1588,7 @@ def sta_dataPre0xtim(qx, xnam0):
 
 def cross_Mod(qx):
     ''' 均线交叉策略，判断均线向上、向下趋势
-    
+
     Args:
         qx (zwQuantX): zwQuantX数据包
         ksma (str)：均线数据列名称

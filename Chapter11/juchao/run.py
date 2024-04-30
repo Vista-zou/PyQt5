@@ -113,7 +113,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         '''
         过滤df的主函数。
         :param df: df.columns
-                Out[10]: 
+                Out[10]:
                 Index(['content', 'download_url', 'time', 'title'], dtype='object')
 
         :param filter_title_list: filter_title_list=['成都','年度'|'季度']
@@ -288,11 +288,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not os.path.isfile(path):
             try:
                 r = requests.get(download_url, stream=True)
-                data = r.raw.read()
+                # data = r.raw.read()
             except:
                 return
             f = open(path, "wb")
-            f.write(data)
+            f.write(r.content)
             f.close()
         os.system(path)
 
@@ -385,7 +385,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
                 '提取url'
                 id = _temp.split(r'/')[2].split('.')[0]
-                download_url = 'http://www.cninfo.com.cn/cninfo-new/disclosure/fulltext/download/{}?announceTime={}'.format(
+                download_url = 'http://www.cninfo.com.cn/new/announcement/download?bulletinId={}&announceTime={}'.format(
                     id, dict_target['time'])
                 dict_target['download_url'] = download_url
                 dict_target['flag'] = flag
@@ -597,6 +597,7 @@ class WorkThread(QThread):
         for key_dict in download_list:
             count_num += 1
             download_url = key_dict['download_url']
+            print(download_url)
             time = key_dict['time']
             title = key_dict['title']
             total_title = time + '_' + title
@@ -614,7 +615,8 @@ class WorkThread(QThread):
                 f = open(file_path, "wb")  # 先建立一个文件，以免其他线程重复建立这个文件
                 try:
                     r = requests.get(download_url, stream=True)
-                    data = r.raw.read()
+                    # data = r.raw.read()
+                    f.write(r.content)
                 except:
                     self.download_list_err.append(key_dict)
                     count_err += 1
@@ -623,8 +625,8 @@ class WorkThread(QThread):
                     signal_list = [count_num, count_all, count_right, count_err, title]
                     self.signal.emit(download_status, signal_list)  # 循环完毕后发出信号
                     continue
-                f.write(data)
-                f.close()
+                # f.write(data)
+                # f.close()
                 count_right += 1
                 signal_list = [count_num, count_all, count_right, count_err, title]
                 self.signal.emit(download_status, signal_list)  # 循环完毕后发出信号

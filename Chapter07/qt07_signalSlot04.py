@@ -45,7 +45,7 @@ class MyThread(QThread):
 			self.sinOut.emit(self.identity+"==>"+str(self.times))
 			self.times -= 1
 
-if __name__ == '__main__':  
+if __name__ == '__main__':
 	app = QApplication(sys.argv)
 	main = Main()
 	main.show()
